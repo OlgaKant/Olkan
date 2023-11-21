@@ -451,7 +451,7 @@ def get_learn(df: pd.DataFrame, random_seed: int,
     return method,  report, a, cv_results, rf
 
 
-def write_pickle(target: str, to_save: object) -> None:
+def w_pickle(target: str, to_save: object) -> None:
     """ Save data to .pkl
 
     Args:
@@ -472,7 +472,7 @@ def write_pickle(target: str, to_save: object) -> None:
         raise ex
 
 
-def read_pickle(target: str):
+def r_pickle(target: str):
     """ To read data from .pkl file
 
     Args:

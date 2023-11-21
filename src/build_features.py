@@ -24,9 +24,8 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     X = df[numeric_features]
 
     y = df['type']
-    X_reg = pd.concat([X, y], axis=1)
-
-    sm = SMOTE(random_state=settings.RANDOM_STATE, k_neighbors=4)
+   
+    sm = SMOTE(random_seed=settings.RANDOM_SEED, k_neighbors=4)
     X, y = sm.fit_resample(X, y)
     y_tmp = y.to_frame()
     data = pd.concat([X, y_tmp], axis=1)  # датафрейм после оверсэмплинга.

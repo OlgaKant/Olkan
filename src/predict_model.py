@@ -1,7 +1,7 @@
 #from keras.models import load_model
 import pandas as pd
 #import click
-from utils import read_pickle, write_pickle
+from utils import r_pickle, w_pickle
 
 
 #@click.command()
@@ -13,12 +13,12 @@ def main(type_: str):
     # но во втором - не требуется отдельная модель.
     # Здесь для предсказания типа вина используется 1 вариант
     if type_ == 'binary':
-        model = read_pickle('models/binary')
+        model = r_pickle('models/binary')
         # Датасет для предикта по выбранной модели уже подготовлен
         X = pd.read_csv('data/processed/data_predict.csv', index_col=False)
         X = X.drop(columns=['type'])
         predictions = model.predict(X)
-        write_pickle('reports/type_predictions.pkl', predictions)
+        w_pickle('reports/type_predictions.pkl', predictions)
     #elif type_ == 'cnn':
         # Загружаем лучшую из двух моделей
         #try:
@@ -30,7 +30,7 @@ def main(type_: str):
             #X = X.drop(columns=['type', 'quality'])
             #try:
                 #predictions = model.predict(X)
-                #write_pickle('reports/quality_predictions.pkl', predictions)
+                #w_pickle('reports/quality_predictions.pkl', predictions)
             #except Exception as ex:
                 #print(ex)
         #except Exception as ex:

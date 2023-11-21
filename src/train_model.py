@@ -14,7 +14,7 @@ from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 #from keras.layers import Dense
 import matplotlib.pyplot as plt
 import json
-#from utils import write_pickle
+from utils import w_pickle
 import pickle
 from settings import Settings
 from app_settings import AppSettings
@@ -41,7 +41,7 @@ def train_model(df: pd.DataFrame,
 
     rf = model
     rf.fit(X_train, y_train)
-    write_pickle(app_settings.TYPE_MODEL_FILE, rf)
+    w_pickle(app_settings.TYPE_MODEL_FILE, rf)
     print('binary model fitted')
     return X, y, X_test, y_test, rf
 
@@ -52,9 +52,7 @@ def get_labels(data: pd.DataFrame):
     Return: a tuple of 2 np.ndarrays"""
     type_wine = data.pop('type')
     type_wine = np.array(type_wine)
-    quality = data.pop('quality')
-    quality = np.array(quality)
-    return (quality, type_wine)
+    return (type_wine)
 
 def make_model():
     """ Функция формирует модель бинарной классификации"""
@@ -95,7 +93,7 @@ def eval_model(X, y, X_test, y_test, model, flag):
     scoring = ['precision_macro', 'recall_macro']
     cv_results = cross_validate(model, X, y, cv=kfold, scoring=scoring)
     print(cv_results)
-    write_pickle(Path('reports', 'cv_results'), cv_results)
+    w_pickle(Path('reports', 'cv_results'), cv_results.pkl)
 
     if flag:
         print("Classification report\n")
@@ -112,7 +110,6 @@ def eval_model(X, y, X_test, y_test, model, flag):
 
 
 @click.command()
-@click.option('--type_', help="Бинарная модель")
 @click.option('--stage_', help="""Для запуска функций из этого модуля.
 --make_model - to build & compile model,
 --train_model - fit binary classification model,
